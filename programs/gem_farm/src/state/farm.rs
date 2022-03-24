@@ -293,6 +293,7 @@ impl Farm {
         extra_gems: u64,
         extra_rarity_points: u64,
         farmer: &mut Account<Farmer>,
+        add: bool,
     ) -> Result<()> {
         // update farmer
         let (_previous_gems, previous_rarity_points) = farmer.begin_staking(
@@ -303,9 +304,15 @@ impl Farm {
         )?;
 
         // update farm
-        self.gems_staked.try_add_assign(extra_gems)?;
-        self.rarity_points_staked
-            .try_add_assign(extra_rarity_points)?;
+        if add {
+            self.gems_staked.try_add_assign(extra_gems)?;
+            self.rarity_points_staked
+                .try_add_assign(extra_rarity_points)?;
+        } else {
+            self.gems_staked.try_sub_assign(extra_gems)?;
+            self.rarity_points_staked
+                .try_sub_assign(extra_rarity_points)?;
+        }
 
         self.assert_valid_max_counts()?;
 

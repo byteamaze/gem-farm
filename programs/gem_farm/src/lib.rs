@@ -117,6 +117,19 @@ pub mod gem_farm {
         instructions::flash_deposit::handler(ctx, bump_vault_auth, bump_rarity, amount)
     }
 
+    pub fn flash_withdraw<'a, 'b, 'c, 'info>(
+        ctx: Context<'a, 'b, 'c, 'info, FlashWithdraw<'info>>,
+        _bump_farmer: u8,
+        bump_vault_auth: u8,
+        bump_gem_box: u8,
+        bump_gdr: u8,
+        bump_rarity: u8,
+        amount: u64,
+    ) -> Result<()> {
+        // msg!("flash withdraw"); //have to remove all msgs! or run out of compute budget for this ix
+        instructions::flash_withdraw::handler(ctx, bump_vault_auth, bump_gem_box, bump_gdr, bump_rarity, amount)
+    }
+
     pub fn refresh_farmer(ctx: Context<RefreshFarmer>, _bump: u8) -> Result<()> {
         msg!("refresh farmer");
         instructions::refresh_farmer::handler(ctx)

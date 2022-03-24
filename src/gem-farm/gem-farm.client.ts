@@ -750,6 +750,102 @@ export class GemFarmClient extends GemBankClient {
     };
   }
 
+  async flashWithdraw(
+      farm: PublicKey,
+      farmerIdentity: PublicKey | Keypair,
+      gemAmount: BN,
+      gemMint: PublicKey,
+      receiver: PublicKey
+  ) {
+    const identityPk = isKp(farmerIdentity)
+        ? (<Keypair>farmerIdentity).publicKey
+        : <PublicKey>farmerIdentity;
+
+    const farmAcc = await this.fetchFarmAcc(farm);
+
+    const [farmer, farmerBump] = await findFarmerPDA(farm, identityPk);
+    const [vault, vaultBump] = await findVaultPDA(farmAcc.bank, identityPk);
+    const [farmAuth, farmAuthBump] = await findFarmAuthorityPDA(farm);
+
+    const [gemBox, gemBoxBump] = await findGemBoxPDA(vault, gemMint);
+    const [GDR, GDRBump] = await findGdrPDA(vault, gemMint);
+    const [vaultAuth, vaultAuthBump] = await findVaultAuthorityPDA(vault);
+    const [gemRarity, gemRarityBump] = await findRarityPDA(
+        farmAcc.bank,
+        gemMint
+    );
+
+    const gemDestination = await this.findATA(gemMint, receiver);
+
+    const signers: Keypair[] = [];
+    if (isKp(farmerIdentity)) signers.push(<Keypair>farmerIdentity);
+
+    console.log('flash withdraw on behalf of', identityPk.toBase58());
+    const flashWithdrawIx = await this.farmProgram.instruction.flashWithdraw(
+        farmerBump,
+        vaultAuthBump,
+        gemBoxBump,
+        GDRBump,
+        gemRarityBump,
+        gemAmount,
+        {
+          accounts: {
+            farm,
+            farmAuthority: farmAuth,
+            farmer,
+            identity: identityPk,
+            bank: farmAcc.bank,
+            vault,
+            vaultAuthority: vaultAuth,
+            gemBox,
+            gemDepositReceipt: GDR,
+            gemDestination,
+            gemMint,
+            gemRarity,
+            receiver,
+            tokenProgram: TOKEN_PROGRAM_ID,
+            associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+            systemProgram: SystemProgram.programId,
+            rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+            gemBank: this.bankProgram.programId,
+          },
+          signers,
+        }
+    );
+
+    //will have no effect on solana networks < 1.9.2
+    const extraComputeIx = this.createExtraComputeIx(256000);
+
+    //craft transaction
+    let tx = new Transaction({
+      feePayer: this.wallet.publicKey,
+      recentBlockhash: (await this.conn.getRecentBlockhash()).blockhash,
+    });
+    tx.add(extraComputeIx);
+    tx.add(flashWithdrawIx);
+    tx = await this.wallet.signTransaction(tx);
+    if (signers.length > 0) {
+      tx.partialSign(...signers);
+    }
+    const txSig = await this.conn.sendRawTransaction(tx.serialize());
+
+    return {
+      farmer,
+      farmerBump,
+      vault,
+      vaultBump,
+      farmAuth,
+      farmAuthBump,
+      gemBox,
+      gemBoxBump,
+      GDR,
+      GDRBump,
+      vaultAuth,
+      vaultAuthBump,
+      txSig,
+    };
+  }
+
   async refreshFarmer(
     farm: PublicKey,
     farmerIdentity: PublicKey | Keypair,
