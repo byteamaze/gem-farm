@@ -535,4 +535,11 @@ export class GemBankClient extends AccountUtils {
 
     return { whitelistProof, whitelistBump, txSig };
   }
-}
+
+  async findGemRarityPDA(
+      bank: PublicKey,
+      gemMint: PublicKey
+  ) {
+    const [gemRarity, gemRarityBump] = await findRarityPDA(bank, gemMint);
+    return { gemRarity };
+  }

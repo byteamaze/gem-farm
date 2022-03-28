@@ -241,9 +241,11 @@ pub fn handler(ctx: Context<DepositGem>, amount: u64) -> Result<()> {
     let gdr = &mut *ctx.accounts.gem_deposit_receipt;
     let gem_box = &*ctx.accounts.gem_box;
 
+    let now_ts = now_ts()?;
     gdr.vault = vault.key();
     gdr.gem_box_address = gem_box.key();
     gdr.gem_mint = gem_box.mint;
+    gdr.deposit_ts = now_ts;
     gdr.gem_count.try_add_assign(amount)?;
 
     // this check is semi-useless but won't hurt

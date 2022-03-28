@@ -43,20 +43,20 @@ pub struct Claim<'info> {
         payer = identity)]
     pub reward_a_destination: Box<Account<'info, TokenAccount>>,
 
-    // reward b
-    #[account(mut, seeds = [
-            b"reward_pot".as_ref(),
-            farm.key().as_ref(),
-            reward_b_mint.key().as_ref(),
-        ],
-        bump = bump_pot_b)]
-    pub reward_b_pot: Box<Account<'info, TokenAccount>>,
-    pub reward_b_mint: Box<Account<'info, Mint>>,
-    #[account(init_if_needed,
-        associated_token::mint = reward_b_mint,
-        associated_token::authority = identity,
-        payer = identity)]
-    pub reward_b_destination: Box<Account<'info, TokenAccount>>,
+//    // reward b
+//    #[account(mut, seeds = [
+//            b"reward_pot".as_ref(),
+//            farm.key().as_ref(),
+//            reward_b_mint.key().as_ref(),
+//        ],
+//        bump = bump_pot_b)]
+//    pub reward_b_pot: Box<Account<'info, TokenAccount>>,
+//    pub reward_b_mint: Box<Account<'info, Mint>>,
+//    #[account(init_if_needed,
+//        associated_token::mint = reward_b_mint,
+//        associated_token::authority = identity,
+//        payer = identity)]
+//    pub reward_b_destination: Box<Account<'info, TokenAccount>>,
 
     // misc
     pub token_program: Program<'info, Token>,
@@ -100,9 +100,9 @@ pub fn handler(ctx: Context<Claim>) -> Result<()> {
     let to_claim_a = farmer
         .reward_a
         .claim_reward(ctx.accounts.reward_a_pot.amount)?;
-    let to_claim_b = farmer
-        .reward_b
-        .claim_reward(ctx.accounts.reward_b_pot.amount)?;
+//    let to_claim_b = farmer
+//        .reward_b
+//        .claim_reward(ctx.accounts.reward_b_pot.amount)?;
 
     // do the transfers
     if to_claim_a > 0 {
@@ -113,14 +113,14 @@ pub fn handler(ctx: Context<Claim>) -> Result<()> {
             to_claim_a,
         )?;
     }
-    if to_claim_b > 0 {
-        token::transfer(
-            ctx.accounts
-                .transfer_b_ctx()
-                .with_signer(&[&ctx.accounts.farm.farm_seeds()]),
-            to_claim_b,
-        )?;
-    }
+//    if to_claim_b > 0 {
+//        token::transfer(
+//            ctx.accounts
+//                .transfer_b_ctx()
+//                .with_signer(&[&ctx.accounts.farm.farm_seeds()]),
+//            to_claim_b,
+//        )?;
+//    }
 
     msg!("rewards claimed ({} A) and ({} B)", to_claim_a, to_claim_b);
     Ok(())

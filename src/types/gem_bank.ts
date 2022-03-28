@@ -522,7 +522,11 @@ export type GemBank = {
                 32
               ]
             }
-          }
+          },
+          {
+            "name": "depositTs",
+            "type": "u64"
+          },
         ]
       }
     },
@@ -1174,6 +1178,10 @@ export const IDL: GemBank = {
                 32
               ]
             }
+          },
+          {
+            "name": "depositTs",
+            "type": "u64"
           }
         ]
       }

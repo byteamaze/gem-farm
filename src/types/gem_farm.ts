@@ -776,15 +776,15 @@ export type GemFarm = {
           "type": "u8"
         },
         {
+          "name": "bumpVaultAuth",
+          "type": "u8"
+        },
+        {
           "name": "bumpGemBox",
           "type": "u8"
         },
         {
           "name": "bumpGdr",
-          "type": "u8"
-        },
-        {
-          "name": "bumpVaultAuth",
           "type": "u8"
         },
         {
@@ -2583,15 +2583,15 @@ export const IDL: GemFarm = {
           "type": "u8"
         },
         {
+          "name": "bumpVaultAuth",
+          "type": "u8"
+        },
+        {
           "name": "bumpGemBox",
           "type": "u8"
         },
         {
           "name": "bumpGdr",
-          "type": "u8"
-        },
-        {
-          "name": "bumpVaultAuth",
           "type": "u8"
         },
         {

@@ -22,4 +22,7 @@ pub struct GemDepositReceipt {
 
     /// reserved for future updates, has to be /8
     _reserved: [u8; 32],
+
+    /// time seconds of deposit gem
+    pub deposit_ts: u64,
 }
