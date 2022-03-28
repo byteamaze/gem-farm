@@ -519,21 +519,6 @@ export type GemFarm = {
           "isSigner": false
         },
         {
-          "name": "rewardBPot",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardBMint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rewardBDestination",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -565,10 +550,6 @@ export type GemFarm = {
         },
         {
           "name": "bumpPotA",
-          "type": "u8"
-        },
-        {
-          "name": "bumpPotB",
           "type": "u8"
         }
       ]
@@ -2326,21 +2307,6 @@ export const IDL: GemFarm = {
           "isSigner": false
         },
         {
-          "name": "rewardBPot",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardBMint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rewardBDestination",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -2372,10 +2338,6 @@ export const IDL: GemFarm = {
         },
         {
           "name": "bumpPotA",
-          "type": "u8"
-        },
-        {
-          "name": "bumpPotB",
           "type": "u8"
         }
       ]

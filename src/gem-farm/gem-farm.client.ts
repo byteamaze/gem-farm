@@ -588,10 +588,8 @@ export class GemFarmClient extends GemBankClient {
     const [farmer, farmerBump] = await findFarmerPDA(farm, identityPk);
 
     const [potA, potABump] = await findRewardsPotPDA(farm, rewardAMint);
-    const [potB, potBBump] = await findRewardsPotPDA(farm, rewardBMint);
 
     const rewardADestination = await this.findATA(rewardAMint, identityPk);
-    const rewardBDestination = await this.findATA(rewardBMint, identityPk);
 
     const signers = [];
     if (isKp(farmerIdentity)) signers.push(<Keypair>farmerIdentity);
@@ -600,7 +598,6 @@ export class GemFarmClient extends GemBankClient {
       farmAuthBump,
       farmerBump,
       potABump,
-      potBBump,
       {
         accounts: {
           farm,
@@ -610,9 +607,6 @@ export class GemFarmClient extends GemBankClient {
           rewardAPot: potA,
           rewardAMint,
           rewardADestination,
-          rewardBPot: potB,
-          rewardBMint,
-          rewardBDestination,
           tokenProgram: TOKEN_PROGRAM_ID,
           associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
           systemProgram: SystemProgram.programId,
@@ -629,10 +623,7 @@ export class GemFarmClient extends GemBankClient {
       farmerBump,
       potA,
       potABump,
-      potB,
-      potBBump,
       rewardADestination,
-      rewardBDestination,
       txSig,
     };
   }

@@ -515,6 +515,10 @@ export type GemBank = {
             "type": "u64"
           },
           {
+            "name": "depositTs",
+            "type": "u64"
+          },
+          {
             "name": "reserved",
             "type": {
               "array": [
@@ -522,11 +526,7 @@ export type GemBank = {
                 32
               ]
             }
-          },
-          {
-            "name": "depositTs",
-            "type": "u64"
-          },
+          }
         ]
       }
     },
@@ -1171,6 +1171,10 @@ export const IDL: GemBank = {
             "type": "u64"
           },
           {
+            "name": "depositTs",
+            "type": "u64"
+          },
+          {
             "name": "reserved",
             "type": {
               "array": [
@@ -1178,10 +1182,6 @@ export const IDL: GemBank = {
                 32
               ]
             }
-          },
-          {
-            "name": "depositTs",
-            "type": "u64"
           }
         ]
       }

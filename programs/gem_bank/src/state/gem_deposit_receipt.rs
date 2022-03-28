@@ -20,9 +20,9 @@ pub struct GemDepositReceipt {
     /// but the vault is generic enough to support fungible tokens as well, so this can be >1
     pub gem_count: u64,
 
-    /// reserved for future updates, has to be /8
-    _reserved: [u8; 32],
-
     /// time seconds of deposit gem
     pub deposit_ts: u64,
+
+    /// reserved for future updates, has to be /8
+    _reserved: [u8; 24],
 }

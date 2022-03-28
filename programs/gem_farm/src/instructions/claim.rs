@@ -8,7 +8,7 @@ use gem_common::*;
 use crate::state::*;
 
 #[derive(Accounts)]
-#[instruction(bump_auth: u8, bump_farmer: u8, bump_pot_a: u8, bump_pot_b: u8)]
+#[instruction(bump_auth: u8, bump_farmer: u8, bump_pot_a: u8)]
 pub struct Claim<'info> {
     // farm
     #[account(mut, has_one = farm_authority)]
@@ -77,16 +77,16 @@ impl<'info> Claim<'info> {
         )
     }
 
-    fn transfer_b_ctx(&self) -> CpiContext<'_, '_, '_, 'info, Transfer<'info>> {
-        CpiContext::new(
-            self.token_program.to_account_info(),
-            Transfer {
-                from: self.reward_b_pot.to_account_info(),
-                to: self.reward_b_destination.to_account_info(),
-                authority: self.farm_authority.to_account_info(),
-            },
-        )
-    }
+//    fn transfer_b_ctx(&self) -> CpiContext<'_, '_, '_, 'info, Transfer<'info>> {
+//        CpiContext::new(
+//            self.token_program.to_account_info(),
+//            Transfer {
+//                from: self.reward_b_pot.to_account_info(),
+//                to: self.reward_b_destination.to_account_info(),
+//                authority: self.farm_authority.to_account_info(),
+//            },
+//        )
+//    }
 }
 
 pub fn handler(ctx: Context<Claim>) -> Result<()> {
@@ -122,6 +122,6 @@ pub fn handler(ctx: Context<Claim>) -> Result<()> {
 //        )?;
 //    }
 
-    msg!("rewards claimed ({} A) and ({} B)", to_claim_a, to_claim_b);
+    msg!("rewards claimed ({} A)", to_claim_a);
     Ok(())
 }

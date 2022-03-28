@@ -100,7 +100,6 @@ pub mod gem_farm {
         _bump_auth: u8,
         _bump_farmer: u8,
         _bump_pot_a: u8,
-        _bump_pot_b: u8,
     ) -> Result<()> {
         msg!("claim");
         instructions::claim::handler(ctx)
