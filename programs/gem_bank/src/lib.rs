@@ -46,8 +46,9 @@ pub mod gem_bank {
         _bump_gdr: u8,
         _bump_rarity: u8,
         amount: u64,
+        min_stake_ts: u64,
     ) -> Result<()> {
-        instructions::withdraw_gem::handler(ctx, amount)
+        instructions::withdraw_gem::handler(ctx, amount, min_stake_ts)
     }
 
     pub fn add_to_whitelist(ctx: Context<AddToWhitelist>, whitelist_type: u8) -> Result<()> {

@@ -124,6 +124,7 @@ pub fn handler<'a, 'b, 'c, 'info>(
         bump_gdr,
         bump_rarity,
         amount,
+        ctx.accounts.farm.config.min_staking_period_sec
     )?;
 
     gem_bank::cpi::set_vault_lock(

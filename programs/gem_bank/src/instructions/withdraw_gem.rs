@@ -89,13 +89,18 @@ impl<'info> WithdrawGem<'info> {
     }
 }
 
-pub fn handler(ctx: Context<WithdrawGem>, amount: u64) -> Result<()> {
+pub fn handler(ctx: Context<WithdrawGem>, amount: u64, min_stake_ts: u64) -> Result<()> {
     // verify vault not suspended
     let bank = &*ctx.accounts.bank;
     let vault = &ctx.accounts.vault;
 
     if vault.access_suspended(bank.flags)? {
         return Err(error!(ErrorCode::VaultAccessSuspended));
+    }
+
+    let now_ts = now_ts()?;
+    if (ctx.accounts.gem_deposit_receipt.deposit_ts + min_stake_ts) < now_ts {
+        return Err(error!(ErrorCode::MinStakingNotPassed));
     }
 
     // do the transfer

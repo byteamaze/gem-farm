@@ -408,6 +408,7 @@ export class GemBankClient extends AccountUtils {
     vault: PublicKey,
     vaultOwner: PublicKey | Keypair,
     gemAmount: BN,
+    minStakeTs: BN,
     gemMint: PublicKey,
     receiver: PublicKey
   ) {
@@ -430,6 +431,7 @@ export class GemBankClient extends AccountUtils {
       GDRBump,
       gemRarityBump,
       gemAmount,
+      minStakeTs,
       {
         accounts: {
           bank,
@@ -543,3 +545,5 @@ export class GemBankClient extends AccountUtils {
     const [gemRarity, gemRarityBump] = await findRarityPDA(bank, gemMint);
     return { gemRarity };
   }
+
+}

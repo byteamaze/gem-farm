@@ -314,6 +314,10 @@ export type GemBank = {
         {
           "name": "amount",
           "type": "u64"
+        },
+        {
+          "name": "minStakeTs",
+          "type": "u64"
         }
       ]
     },
@@ -523,7 +527,7 @@ export type GemBank = {
             "type": {
               "array": [
                 "u8",
-                32
+                24
               ]
             }
           }
@@ -970,6 +974,10 @@ export const IDL: GemBank = {
         {
           "name": "amount",
           "type": "u64"
+        },
+        {
+          "name": "minStakeTs",
+          "type": "u64"
         }
       ]
     },
@@ -1179,7 +1187,7 @@ export const IDL: GemBank = {
             "type": {
               "array": [
                 "u8",
-                32
+                24
               ]
             }
           }
