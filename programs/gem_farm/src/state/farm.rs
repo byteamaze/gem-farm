@@ -215,6 +215,7 @@ impl Farm {
             now_ts,
             gems_in_vault,
             rarity_points_in_vault,
+            true,
         )?;
 
         // update farm
@@ -301,6 +302,7 @@ impl Farm {
             now_ts,
             gems_in_vault,
             rarity_points_in_vault,
+            false,
         )?;
 
         // update farm

@@ -99,7 +99,7 @@ pub fn handler(ctx: Context<WithdrawGem>, amount: u64, min_stake_ts: u64) -> Res
     }
 
     let now_ts = now_ts()?;
-    if (ctx.accounts.gem_deposit_receipt.deposit_ts + min_stake_ts) < now_ts {
+    if (ctx.accounts.gem_deposit_receipt.deposit_ts + min_stake_ts) > now_ts {
         return Err(error!(ErrorCode::MinStakingNotPassed));
     }
 

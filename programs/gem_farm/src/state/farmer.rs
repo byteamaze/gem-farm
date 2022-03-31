@@ -55,6 +55,7 @@ impl Farmer {
         now_ts: u64,
         gems_in_vault: u64,
         rarity_points_in_vault: u64,
+        update_ts: bool,
     ) -> Result<(u64, u64)> {
         self.state = FarmerState::Staked;
 
@@ -62,7 +63,9 @@ impl Farmer {
         let previous_rarity_points_staked = self.rarity_points_staked;
         self.gems_staked = gems_in_vault;
         self.rarity_points_staked = rarity_points_in_vault;
-        self.min_staking_ends_ts = now_ts.try_add(min_staking_period_sec)?;
+        if update_ts {
+            self.min_staking_ends_ts = now_ts.try_add(min_staking_period_sec)?;
+        }
         self.cooldown_ends_ts = 0; //zero it out in case it was set before
 
         Ok((previous_gems_staked, previous_rarity_points_staked))
