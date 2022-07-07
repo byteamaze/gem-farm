@@ -242,11 +242,13 @@ impl FarmerFixedRateReward {
     }
 
     pub fn is_time_to_graduate(&self, now_ts: u64) -> Result<bool> {
-        Ok(now_ts >= self.end_schedule_ts()?)
+        Ok(false) // never graduate
+//        Ok(now_ts >= self.end_schedule_ts()?)
     }
 
     pub fn reward_upper_bound(&self, now_ts: u64) -> Result<u64> {
-        Ok(std::cmp::min(now_ts, self.end_schedule_ts()?))
+//        Ok(std::cmp::min(now_ts, self.end_schedule_ts()?))
+        Ok(now_ts)
     }
 
     pub fn time_from_staking_to_update(&self) -> Result<u64> {
