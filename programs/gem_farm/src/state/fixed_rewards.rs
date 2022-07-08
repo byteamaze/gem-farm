@@ -314,7 +314,8 @@ impl FixedRateReward {
         funds
             .total_accrued_to_stakers
             .try_add_assign(newly_accrued_reward)?;
-        self.reserved_amount.try_sub_assign(newly_accrued_reward)?;
+//        self.reserved_amount.try_sub_assign(newly_accrued_reward)?;
+        self.reserved_amount = 0;
 
         // update farmer
         farmer_reward.update_fixed_reward(now_ts, newly_accrued_reward)?;
@@ -380,7 +381,8 @@ impl FixedRateReward {
         farmer_reward.fixed_rate.promised_duration = remaining_duration;
 
         // update farm
-        self.reserved_amount.try_add_assign(reserve_amount)?;
+//        self.reserved_amount.try_add_assign(reserve_amount)?;
+        self.reserved_amount = 0;
 
         // msg!("enrolled farmer as of {}", now_ts);
         Ok(())
@@ -403,7 +405,8 @@ impl FixedRateReward {
             .fixed_rate
             .voided_reward(farmer_rarity_points_staked)?;
 
-        self.reserved_amount.try_sub_assign(voided_reward)?;
+        //self.reserved_amount.try_sub_assign(voided_reward)?;
+        self.reserved_amount = 0;
 
         // zero out the data on the farmer
         farmer_reward.fixed_rate = FarmerFixedRateReward::default();
