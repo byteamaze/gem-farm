@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use gem_common::{errors::ErrorCode, *};
+use gem_common::{*};
 
 use crate::state::*;
 
@@ -363,17 +363,17 @@ impl FixedRateReward {
         // calc any bonus due to previous staking
         farmer_reward.fixed_rate.begin_staking_ts = original_staking_start.unwrap_or(now_ts);
         farmer_reward.fixed_rate.begin_schedule_ts = now_ts;
-        let bonus_time = farmer_reward.fixed_rate.loyal_staker_bonus_time()?;
-
-        // calc how much we'd have to reserve for them
-        let reserve_amount = self.schedule.reward_amount(
-            bonus_time,
-            remaining_duration.try_add(bonus_time)?,
-            farmer_rarity_points_staked,
-        )?;
-        if reserve_amount > funds.pending_amount()? {
-            return Err(error!(ErrorCode::RewardUnderfunded));
-        }
+//        let bonus_time = farmer_reward.fixed_rate.loyal_staker_bonus_time()?;
+//
+//        // calc how much we'd have to reserve for them
+//        let reserve_amount = self.schedule.reward_amount(
+//            bonus_time,
+//            remaining_duration.try_add(bonus_time)?,
+//            farmer_rarity_points_staked,
+//        )?;
+//        if reserve_amount > funds.pending_amount()? {
+//            return Err(error!(ErrorCode::RewardUnderfunded));
+//        }
 
         // update farmer
         farmer_reward.fixed_rate.last_updated_ts = now_ts;
@@ -400,12 +400,12 @@ impl FixedRateReward {
     ) -> Result<u64> {
         let original_begin_staking_ts = farmer_reward.fixed_rate.begin_staking_ts;
 
-        // reduce reserved amount
-        let voided_reward = farmer_reward
-            .fixed_rate
-            .voided_reward(farmer_rarity_points_staked)?;
-
-        //self.reserved_amount.try_sub_assign(voided_reward)?;
+//        // reduce reserved amount
+//        let voided_reward = farmer_reward
+//            .fixed_rate
+//            .voided_reward(farmer_rarity_points_staked)?;
+//
+//        self.reserved_amount.try_sub_assign(voided_reward)?;
         self.reserved_amount = 0;
 
         // zero out the data on the farmer
