@@ -48,7 +48,10 @@ pub struct FlashWithdraw<'info> {
     /// CHECK:
     #[account(mut)]
     pub gem_deposit_receipt: AccountInfo<'info>,
-    #[account(mut)]
+    #[account(init_if_needed,
+        associated_token::mint = gem_mint,
+        associated_token::authority = receiver,
+        payer = identity)]
     pub gem_destination: Box<Account<'info, TokenAccount>>,
     pub gem_mint: Box<Account<'info, Mint>>,
     /// CHECK:
